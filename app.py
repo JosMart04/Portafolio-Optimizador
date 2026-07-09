@@ -150,8 +150,8 @@ def frontera_eficiente(mu, cov, n_puntos=200):
 # FUNCIONES CORE: SIMULACIÓN DE RIQUEZA (BACKTESTING)
 # ==============================================================================
 def _fechas_rebalanceo(precios_index, freq_label):
-    freq_map = {"Semanal": "W", "Mensual": "M", "Trimestral": "Q"}
-    freq = freq_map.get(freq_label, "M")
+    freq_map = {"Semanal": "W", "Mensual": "ME", "Trimestral": "QE"}
+    freq = freq_map.get(freq_label, "ME")
     serie = pd.Series(precios_index, index=precios_index)
     ultimas = serie.resample(freq).last().dropna()
     return set(ultimas.values)
@@ -642,7 +642,7 @@ with tabs[2]:
 
                 port_log_ret = log_returns.values @ w_tangente
                 port_log_ret = pd.Series(port_log_ret, index=log_returns.index)
-                monthly_log = port_log_ret.resample("M").sum()
+                monthly_log = port_log_ret.resample("ME").sum()
                 retornos_periodicos = np.exp(monthly_log) - 1
 
                 grid, J, politica, matriz_costos = ejecutar_dp_rebalanceo(
